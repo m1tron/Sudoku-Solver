@@ -12,3 +12,19 @@ any best practices was learned, and thus illuminates what can be achieved by a b
 - Mouse click listener using click location arithmetic to trim away much logic
 - GUI rendering using overlapping rectangles. Board effectively painted using 18 rectangles.
 - Everything fitted into < 200 lines of code in a single file
+
+How it solves using method _Boolean solve()_:
+1. Finds first empty field.
+2. Try every number in order iteratively (loop)
+   3. When valid move found:
+      1. If board filled, return true
+      2. Else Recursively call, and return its value (1)
+   3. If no valid move:
+      4. Clear last move, return false
+
+This recursive function naively tries the first empty square with the first valid number, then recursively calls itself. This is equivalent to just
+solving a Sudoku puzzle by entering numbers into all boxes with the only precondition that any entered number does not break row, column or box uniqueness. 
+Whenever it encounters a situation where no valid moves are present, it will backtrack through the callstack, and just continue. This naive approach usually leads to millions of tries before finding a solution, and might for some very specific low-information and single solution puzzles lead to very long solve times. However, the usually case is <1ms, and solving an empty board is actually trivial.
+
+### Future work
+- Condense program even more
