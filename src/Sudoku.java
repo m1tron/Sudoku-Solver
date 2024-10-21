@@ -37,9 +37,7 @@ class GamePanel extends JPanel {
 	static final int SOLVE = KeyEvent.VK_S;
 	static final int CLEAR = KeyEvent.VK_C;
 	boolean rowTest[][] = new boolean[ROWS][ROWS]; 
-	int debugCounter = 0;
-	//JPanel buttonPanel = new JPanel();
-	Color backgroundColor = new Color(240, 220, 240);
+
 	Color rowColor = new Color(100, 50, 50, 50);
 	Color columnColor = rowColor;// new Color(50, 50, 100, 40);
 	Color defaultColor = new Color(230, 255, 255);
@@ -55,16 +53,9 @@ class GamePanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				Point p = e.getPoint();
 				p = coordToField(p);
-				System.out.println(e);
 				selection = p;
-				System.out.println("Field: (" + p.x + ", " + p.y + ")");
-				System.out.println("Selection: (" + selection.x + ", "
-						+ selection.y + ")");
-
 				requestFocusInWindow();
-				
 				repaint();
-
 			}
 		});
 
@@ -84,7 +75,7 @@ class GamePanel extends JPanel {
 				if (code == SOLVE) {
 					initRowTest();
 					long startTime = System.currentTimeMillis();
-						solve();
+					solve();
 					long endTime   = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
 					System.out.println(totalTime);
@@ -101,52 +92,37 @@ class GamePanel extends JPanel {
 				for (int i = 0; i < ROWS; i++) {
 					for (int j = 0; j < ROWS; j++) {
 						if(fields[i][j] != 0){
-							//rowTest[i][fields[i][j]-1] = true;
 							System.out.println("Row "+ i + " is set as true for number " + fields[i][j]);
 						}
 					}
-
 				}
-				
 			}
 		});
-		
 	}
 	
 	void clearField(){
-		//System.out.println("clearfield");
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < ROWS; j++) {
 				fields[i][j] = 0;
 				rowTest[i][j] = false;
 			}
-
 		}
 	}
 
 	Boolean solve() {
-		//System.out.println("running solve");
 		Point emptyField = findEmptyField();
-
 		for (int i = 1; i <= ROWS; i++) {
 			fields[emptyField.x][emptyField.y] = i;
 			Boolean isValidMove = checkValidMove(emptyField, i);
-			//rowTest[emptyField.x][i-1] = true;
 			if(isValidMove){
 				if(isFilled())		return true;
 				else if(solve()) 	return true;
 			}
-			else {
-				//rowTest[emptyField.x][i-1] = false;
-			}
-
-
 		}
-		//rowTest[emptyField.x][fields[emptyField.x][emptyField.y]-1] = false;
 		fields[emptyField.x][emptyField.y] = 0;
-
 		return false;
 	}
+
 	Boolean isFilled() {
 		//System.out.println("running isfilled");
 		for (int i = 0; i < ROWS; i++) {
@@ -171,29 +147,16 @@ class GamePanel extends JPanel {
 	}
 
 	Boolean checkValidMove(Point emptyField, int num) {
-		debugCounter++;
-		if(debugCounter == 100000000){
-			System.out.println("running checkValidMove");
-			debugCounter = 0;
-		}
-		
 		// Check COLUMN for similar values		
 		for (int i = 0; i < ROWS; i++) {
 			if (fields[i][emptyField.y] == num && i != emptyField.x) {
-				//System.out.println("ROW ERROR");
 				return false;
 			}
 		} 
-		
-		//System.out.println("rowTest for row: " + emptyField.x + " and number " + num + ". Which means rowTest[emptyField.x][num-1] equals " + (rowTest[emptyField.x][num-1] ));
-		//if(rowTest[emptyField.x][num-1]){
-			//System.out.println("ROW ERROR");
-			//return false;
-		//}
+
 		 //Check ROW for similar values
 		for (int i = 0; i < ROWS; i++) {
 			if (fields[emptyField.x][i] == num && i != emptyField.y) {
-				//System.out.println("COLUMN ERROR");
 				return false;
 			}
 		}
@@ -203,7 +166,6 @@ class GamePanel extends JPanel {
 		for (int i = startX; i < startX + 3; i++) {
 			for (int j = startY; j < startY + 3; j++) {
 				if (fields[i][j] == num && !( i == emptyField.x && j == emptyField.y)) {
-					//System.out.println("BOXERROR");
 					return false;
 				}
 			}
