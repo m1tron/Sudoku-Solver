@@ -9,18 +9,7 @@ public class Sudoku extends JFrame {
 
 	public Sudoku(String name) {
 		super(name);
-		initUI();
-	}
-
-	void initUI() {
-		// Panels
-		JPanel mainPanel = new JPanel();
-		JPanel gamePanel = new GamePanel();
-		// Here optional UI goes
-		mainPanel.add(gamePanel);
-		add(mainPanel);
-
-		 //setPreferredSize(new Dimension(550,550));
+		add(new GamePanel());
 		setVisible(true);
 		pack();
 	}
@@ -48,7 +37,7 @@ class GamePanel extends JPanel {
 	public GamePanel() {
 		clearField();
 		setPreferredSize(new Dimension(XSIZE + BORDER_THICKNESS, YSIZE
-				+ BORDER_THICKNESS +ROW_WIDTH/2));
+				+ BORDER_THICKNESS +ROW_WIDTH/2 + HIGHT_PADDING));
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				Point p = e.getPoint();
@@ -65,36 +54,18 @@ class GamePanel extends JPanel {
 				if (code >= KeyEvent.VK_NUMPAD0 && code <= KeyEvent.VK_NUMPAD9) {
 					code -= KeyEvent.VK_NUMPAD0 - KeyEvent.VK_0;
 				}
-
 				if (code >= KeyEvent.VK_0 && code <= KeyEvent.VK_9) {
 					code -= KeyEvent.VK_0;
 					fields[selection.x][selection.y] = code;
 					repaint();
-					;
 				}
 				if (code == SOLVE) {
-					initRowTest();
-					long startTime = System.currentTimeMillis();
 					solve();
-					long endTime   = System.currentTimeMillis();
-					long totalTime = endTime - startTime;
-					System.out.println(totalTime);
-					
 					repaint();
 				}
 				if (code == CLEAR) {
 					clearField();
 					repaint();
-				}
-			}
-
-			private void initRowTest() {
-				for (int i = 0; i < ROWS; i++) {
-					for (int j = 0; j < ROWS; j++) {
-						if(fields[i][j] != 0){
-							System.out.println("Row "+ i + " is set as true for number " + fields[i][j]);
-						}
-					}
 				}
 			}
 		});
@@ -124,7 +95,6 @@ class GamePanel extends JPanel {
 	}
 
 	Boolean isFilled() {
-		//System.out.println("running isfilled");
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < ROWS; j++) {
 				if (fields[i][j] == 0)
@@ -135,14 +105,12 @@ class GamePanel extends JPanel {
 	}
 
 	Point findEmptyField() {
-		//System.out.println("running find emptyfield");
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < ROWS; j++) {
 				if (fields[i][j] == 0)
 					return new Point(i, j);
 			}
 		}
-		System.out.println("No empty field");
 		return new Point();
 	}
 
@@ -171,10 +139,6 @@ class GamePanel extends JPanel {
 			}
 		}
 		return true;
-	}
-
-	void select(Point p) {
-		selection = coordToField(p);
 	}
 
 	Point coordToField(Point p) {
@@ -226,7 +190,5 @@ class GamePanel extends JPanel {
 		g2d.setColor(new Color(50, 200, 50, 50));
 		Point temp = fieldToCoord(selection);
 		g2d.fillRect(temp.x, temp.y, ROW_WIDTH, ROW_WIDTH);
-
 	}
-
 }

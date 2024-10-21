@@ -11,4 +11,4 @@ any best practices was learned, and thus illuminates what can be achieved by a b
 - GUI representation with key-listeners for input
 - Mouse click listener using click location arithmetic to trim away much logic
 - GUI rendering using overlapping rectangles. Board effectively painted using 18 rectangles.
-- Everything fitted into ~200 lines of code in a single file
+- Everything fitted into < 200 lines of code in a single file
