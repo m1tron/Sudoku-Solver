@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class Sudoku extends JPanel {
 	final int ROWS = 9, COLUMNS = 9, SIZE = 495, ROW_WIDTH = SIZE / ROWS, SOLVE = KeyEvent.VK_S, CLEAR = KeyEvent.VK_C;
-	int[][] fields = new int[ROWS][COLUMNS];
+	int[][] fields = new int[COLUMNS][ROWS];
 	Point selection = new Point();
 
 	public static void main(String[] args) {
@@ -19,7 +19,7 @@ public class Sudoku extends JPanel {
 		setPreferredSize(new Dimension(SIZE + 1, SIZE + ROW_WIDTH));
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				selection =  new Point(e.getPoint().y * COLUMNS / SIZE, e.getPoint().x * COLUMNS / SIZE);
+				selection =  new Point(e.getPoint().x * COLUMNS / SIZE, e.getPoint().y * ROWS / SIZE);
 				requestFocusInWindow(); // Needed to activate key-listener
 				repaint();
 			}
@@ -72,7 +72,7 @@ public class Sudoku extends JPanel {
 	}
 
 	Point fieldToCoord(Point p) {
-		return new Point(p.y * SIZE / COLUMNS, p.x * SIZE / COLUMNS);
+		return new Point(p.x * SIZE / COLUMNS, p.y * SIZE / COLUMNS);
 	}
 
 	public void paintComponent(Graphics g) {
