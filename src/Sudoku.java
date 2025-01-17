@@ -25,7 +25,6 @@ class GamePanel extends JPanel {
 	static final int BORDER_THICKNESS = 1;
 	static final int SOLVE = KeyEvent.VK_S;
 	static final int CLEAR = KeyEvent.VK_C;
-	boolean rowTest[][] = new boolean[ROWS][ROWS]; 
 
 	Color rowColor = new Color(100, 50, 50, 50);
 	Color columnColor = rowColor;// new Color(50, 50, 100, 40);
@@ -52,7 +51,7 @@ class GamePanel extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				int code = e.getKeyCode();
 				if (code >= KeyEvent.VK_NUMPAD0 && code <= KeyEvent.VK_NUMPAD9) {
-					code -= KeyEvent.VK_NUMPAD0 - KeyEvent.VK_0;
+					code -= KeyEvent.VK_NUMPAD0 - KeyEvent.VK_0; // Translate numpad input into normal numbers
 				}
 				if (code >= KeyEvent.VK_0 && code <= KeyEvent.VK_9) {
 					code -= KeyEvent.VK_0;
@@ -75,7 +74,6 @@ class GamePanel extends JPanel {
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < ROWS; j++) {
 				fields[i][j] = 0;
-				rowTest[i][j] = false;
 			}
 		}
 	}
@@ -86,7 +84,7 @@ class GamePanel extends JPanel {
 			fields[emptyField.x][emptyField.y] = i;
 			Boolean isValidMove = checkValidMove(emptyField, i);
 			if(isValidMove){
-				if(isFilled())		return true;
+				if(isComplete())    return true;
 				else if(solve()) 	return true;
 			}
 		}
@@ -94,7 +92,7 @@ class GamePanel extends JPanel {
 		return false;
 	}
 
-	Boolean isFilled() {
+	Boolean isComplete() {
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < ROWS; j++) {
 				if (fields[i][j] == 0)
