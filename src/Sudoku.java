@@ -10,12 +10,11 @@ public class Sudoku extends JPanel {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Sudoku Solver");
 		frame.add(new Sudoku());
-		frame.setVisible(true);
 		frame.pack();
+		frame.setVisible(true);
 	}
 
 	public Sudoku() {
-		clearField();
 		setPreferredSize(new Dimension(SIZE + 1, SIZE + ROW_WIDTH));
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -36,14 +35,10 @@ public class Sudoku extends JPanel {
 					if(checkValidMove(selection, code)) fields[selection.x][selection.y] = code;
 				}
 				if (code == SOLVE && findEmptyField() != null) solve();
-				if (code == CLEAR) clearField();
+				if (code == CLEAR) fields = new int[COLUMNS][ROWS];
 				repaint();
 			}
 		});
-	}
-	
-	void clearField(){
-		for (int i = 0; i < COLUMNS * ROWS; i++) fields[i%COLUMNS][i/ROWS] = 0;
 	}
 
 	Boolean solve() {
@@ -89,7 +84,7 @@ public class Sudoku extends JPanel {
 			g.drawRect(0, line * ROW_WIDTH, SIZE, ROW_WIDTH * 3); // border for boxes rows
 			g.drawRect(line * ROW_WIDTH, 0, ROW_WIDTH * 3, SIZE); // border for boxes columns
 		}
-		for (int i = 0; i < ROWS*COLUMNS; i++)
+		for (int i = 0; i < ROWS*COLUMNS; i++) //
 				if (fields[i%COLUMNS][i/ROWS] != 0) {
 					Point temp = fieldToCoord(new Point(i%COLUMNS, i/ROWS));
 					g.drawString(String.valueOf(fields[i%COLUMNS][i/ROWS]), temp.x+ROW_WIDTH/2, temp.y+ROW_WIDTH/2+5);
