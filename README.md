@@ -1,34 +1,52 @@
-# Sudoku Brute Force Solver
+# A Java Sudoku Brute Force Solver
 
-This Sudoku solver lets the user enter a sudoku puzzle into a GUI that can then be solved by the press of a button.
-The program utilizes a brute force approach where every number is tried until a solution is reached. It was developed back in 2013 to 
-try out some recursive coding. In more modern terms, the program could be called a recursive backtracking constraint
-search.
+### How to run
+Either compile with 'javac' or run in your favorite IDE using JDK1.8 or newer.
 
-What makes this project interesting is what is provided in terms of functionality in comparison to the amount of code. It was written before
-any best practices were learned, and illustrates what can be achieved by a barebone implementation. Some highlights are:
+### How it works
+1. Select a field with your mouse.
+2. Enter a number using keyboard.
+3. Repeat step 1-2 to insert a Sudoku puzzle.
+4. Press 'S' to Solve, or 'C'  to clear the puzzle.
+5. ...
+6. Profit!
 
-- Works on any puzzle that has a solution
-- Easily portable to any language or frameworks that exposes a canvas to draw (basically any language)
-- Compatible all the way back to at least java 8
-- GUI rendered using only Graphics2D functions .drawString, .drawRect, .fillrect
+### Features
+- Works on any puzzle that has a solution.
+- Implemented in less than 100 lines (84 currently).
+- GUI rendered using only Graphics2D functions .drawString, .drawRect, .fillRect
 - Mouse click listener using click location arithmetic
 - Everything fitted into 100 lines of code
 
+### Under the hood
+
+The program utilizes a brute force approach where every number is tried until a solution is reached. It was developed to 
+try out some recursive coding. In more modern terms, the approach could be called a recursive backtracking constraint
+search. The project has recently changed focus from a recursive PoC to a Sudoku solver in the least amount of lines.
+
+#### Rules when compacting the code
+- Only one statement (;) per line.
+- Brackets can be omitted for single line FOR and IF statements.
+- One empty line between methods.
+
+#### Recursive function
 How it solves using method _Boolean solve()_:
 1. Finds first empty field.
-2. Try every number in order iteratively (loop)
-   3. When valid move found:
-      1. If board complete, return true
+2. Insert a number 1-9 in order (for-loop)
+   1. When valid move found:
+      1. If board solved, return true
       2. Else Recursively call solve(), and return its value (1)
-   3. If no valid move:
+   2. If no valid move:
       4. Clear last move and return false (i.e. backtrack)
 
 This recursive function naively tries the first empty square with the first valid number, then recursively calls itself. This is equivalent to just
 solving a Sudoku puzzle by entering numbers into all boxes with the only precondition that any entered number does not break row, column or box uniqueness. 
-Whenever it encounters a situation where no valid moves are present, it will backtrack, and just continue. This naive approach usually leads to millions of
+Whenever it encounters a situation where no valid moves are present, it will backtrack one step, and just continue. This naive approach usually leads to millions of
 tries before finding a solution, and might for some very specific low-information and single solution puzzles lead to very long solve times. However,
 the usual case is <1ms, and solving an empty board, it turns out, is actually trivial.
+
+### Changes 2025-01-17
+- Further condensed IF and FOR statements. 100 -> 84 lines.
 
 ### Changes 2025-01-17
 - Pruned down redundant print logic
